@@ -6,7 +6,7 @@
     color: #fff;
     /* background-color: #333; */
     /* background-image: linear-gradient(to bottom, #000000, #ffaf2f ); */
-    margin: 20px auto 0 auto;
+    margin: 20px auto 20px auto;
     padding: 0 20px 20px 20px;
 }
 
@@ -34,6 +34,7 @@
     font-size: 14px;
     line-height: 1;
     margin: 5px 0 0 0;
+    text-transform: capitalize;
 }
 
 .weather-icon{

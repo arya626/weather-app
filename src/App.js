@@ -13,18 +13,41 @@ function App() {
     const [lat, lon] = searchData.value.split(" ");
     const [city, region, country] = searchData.label.split(",");
     const cityDetails = `${region}, ${country}`;
-
-    const currentWeatherFetch = fetch(
-      `${CURRENT_WEATHER_API}/weather?lat=${lat}&lon=${lon}&appid=${WEATHER_API_KEY}&units=metric`
-    );
     const forecastWeatherFetch = fetch(
       `${CURRENT_WEATHER_API}/forecast?lat=${lat}&lon=${lon}&appid=${WEATHER_API_KEY}&units=metric`
     );
-    Promise.all([currentWeatherFetch, forecastWeatherFetch])
-      .then(async (response) => {
-        const weatherResponse = await response[0].json();
-        const forecastWeatherResponse = await response[1].json();
+    const currentWeatherFetch = fetch(
+      `${CURRENT_WEATHER_API}/weather?lat=${lat}&lon=${lon}&appid=${WEATHER_API_KEY}&units=metric`
+    );
 
+    Promise.all([forecastWeatherFetch, currentWeatherFetch])
+      .then(async (response) => {
+        const forecastWeatherResponse = await response[0].json();
+        const weatherResponse = await response[1].json();
+        const groupedData = forecastWeatherResponse.list.reduce(
+          (acc, current) => {
+            const date = current.dt_txt.split(" ")[0];
+            if (!acc[date]) {
+              acc[date] = {
+                temp_min: current.main.temp_min,
+                temp_max: current.main.temp_max,
+                weather_description: current.weather[0].description,
+                icon: current.weather[0].icon,
+              };
+            } else {
+              if (current.main.temp_min < acc[date].temp_min) {
+                acc[date].temp_min = current.main.temp_min;
+              }
+              if (current.main.temp_max > acc[date].temp_max) {
+                acc[date].temp_max = current.main.temp_max;
+              }
+              acc[date].weather_description = current.weather[0].description;
+            }
+            return acc;
+          },
+          {}
+        );
+        const listOfDates = Object.keys(groupedData);
         setCurrentWeather({
           city: city,
           cityDetails: cityDetails,
@@ -33,7 +56,8 @@ function App() {
         setForecastWeather({
           city: city,
           cityDetails: cityDetails,
-          ...forecastWeatherResponse,
+          listOfDays: groupedData,
+          listOfDates: listOfDates,
         });
       })
       .catch((err) => console.log(err));
