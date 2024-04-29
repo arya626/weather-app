@@ -12,7 +12,7 @@ const WEEK_DAYS = [
   "Tuesday",
   "Wednesday",
   "Thursday",
-  "Firday",
+  "Friday",
   "Saturday",
   "Sunday",
 ];
@@ -27,7 +27,7 @@ const Forecast = ({ data }) => {
   return (
     <>
       <div className="label-box">
-        <label className="title"> 5 Daily Forecast</label>
+        <label className="title"> 6 Days Forecast</label>
       </div>
       <Accordion allowZeroExpanded>
         {data.listOfDates.map((item, idx) => {
@@ -39,7 +39,7 @@ const Forecast = ({ data }) => {
                     <img
                       alt="weather-img"
                       className="icon-small"
-                      src={`newIcons/${dates[item].icon}.png`}
+                      src={`newIcons/${dates[item].icon}d.png`}
                     />
                     <label className="day">
                       {forecastDays[idx]}
