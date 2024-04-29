@@ -38,11 +38,19 @@ const Search = ({ onSearchChange }) => {
       border: "None",
       color: "#ff",
       boxShadow: state.isFocused ? "0 0 0 1px #EDC7B7" : null,
+      "@media only screen and (min-width: 300px) and (max-width: 520px)": {
+        width: "90%",
+        margin: "auto",
+        fontSize: "12px",
+      },
     }),
     option: (provided, state) => ({
       ...provided,
       backgroundColor: state.isFocused ? "#EDC7B7" : null,
       color: state.isFocused ? "white" : null,
+      "@media only screen and (min-width: 300px) and (max-width: 520px)": {
+        fontSize: "12px",
+      },
     }),
   };
 
