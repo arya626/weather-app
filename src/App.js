@@ -32,7 +32,7 @@ function App() {
                 temp_min: current.main.temp_min,
                 temp_max: current.main.temp_max,
                 weather_description: current.weather[0].description,
-                icon: current.weather[0].icon,
+                icon: current.weather[0].icon.slice(0, 2),
               };
             } else {
               if (current.main.temp_min < acc[date].temp_min) {
